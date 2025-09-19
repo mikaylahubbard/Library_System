@@ -6,7 +6,9 @@
         "password": "test4",
         "subject": "Technology",
         "role": "student",
-        "borrowed_books": []
+        "borrowed_books": [
+            "75b8ac90-a744-4a85-9163-9c4488e35c0b"
+        ]
     },
     {
         "user_id": "mikaylalhubbard@gmail.com",
@@ -17,10 +19,7 @@
         "role": "teacher",
         "borrowed_books": [
             "1st Book",
-            "d1e59be5-481b-4446-a7a6-a3c963d0a111",
-            "d1e59be5-481b-4446-a7a6-a3c963d0a111",
-            "d1e59be5-481b-4446-a7a6-a3c963d0a111",
-            "75b8ac90-a744-4a85-9163-9c4488e35c0b"
+            "d1e59be5-481b-4446-a7a6-a3c963d0a111"
         ]
     }
 ]

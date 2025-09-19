@@ -14,7 +14,7 @@
         "author": "Mary Shelley",
         "subject": "english",
         "total_copies": 3,
-        "available_copies": 0,
-        "available": false
+        "available_copies": 2,
+        "available": true
     }
 ]

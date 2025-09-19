@@ -34,14 +34,13 @@ def home(request):
             if u.user_id == user_id:
                 user = u
                 break
-            
+        
+        # handle borrow
     if request.method == "POST" and "borrow" in request.POST:
         book_id = request.POST.get("book_id")
         if user:
             # Find book
             book_id = request.POST.get("book_id")
-            print("POST book_id:", repr(request.POST.get("book_id")))
-            print("Library book_ids:", [str(b.book_id) for b in library.books])
             book = next((b for b in library.books if b.book_id == book_id), None)
             user.borrow_book(book)
 
@@ -50,6 +49,22 @@ def home(request):
             library._save_books()
 
         return redirect('/')  
+    
+    # handle return
+    if request.method == "POST" and "return" in request.POST:
+        book_id = request.POST.get("book_id")
+        if user:
+            # Find book
+            book_id = request.POST.get("book_id")
+            book = next((b for b in library.books if b.book_id == book_id), None)
+            user.return_book(book)
+
+            # Save library after returning
+            library._save_users()
+            library._save_books()
+
+        return redirect('/')  
+    
     if user:
             # resolve book IDs into actual Book objects
             borrowed_books = [
