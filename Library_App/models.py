@@ -2,13 +2,14 @@ from django.db import models
 import random
 import os
 import json
+import uuid
 
 # Create your models here.
 
 
 class Book:
-    def __init__(self, id, title, author, subject, total_copies, available_copies):
-        self.book_id = id
+    def __init__(self, title, author, subject, total_copies, available_copies, id=None,):
+        self.book_id = id or str(uuid.uuid4())
         self.title = title
         self.author = author
         self.subject = subject
@@ -43,7 +44,7 @@ class User:
         
     def borrow_book(self, book: Book) -> bool:
         if (book.available_copies >= 1):
-            self.borrowed_books.append(book)
+            self.borrowed_books.append(book.book_id)
             book.update_borrow()
             # successfully borrowed 
             return True
@@ -53,7 +54,7 @@ class User:
         
     def return_book(self, book: Book):
         book.update_return()
-        self.borrowed_books.remove(book)
+        self.borrowed_books.remove(book.book_id)
         # successfully returned
         
 
@@ -162,6 +163,7 @@ class Library:
                         user = Student(u["user_id"], u["f_name"], u["l_name"], u["password"], u["subject"])
                     else:
                         user = Teacher(u["user_id"], u["f_name"], u["l_name"], u["password"], u["subject"])
+                    user.borrowed_books = u.get("borrowed_books", [])
                     self.users.append(user)
                     self.passwords[user.user_id] = user.password
 
@@ -188,7 +190,7 @@ class Library:
                 data = json.load(f)
                 for b in data:
             
-                    book = Book(b["book_id"], b["title"], b["author"], b["subject"], b["total_copies"], b["available_copies"])
+                    book = Book( b["title"], b["author"], b["subject"], b["total_copies"], b["available_copies"], b["book_id"])
                     self.books.append(book)
                     
     

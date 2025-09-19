@@ -1,20 +1,20 @@
 [
     {
-        "book_id": "Some Tech Book",
-        "title": "Some Tech Book",
-        "author": "Some Dude",
+        "book_id": "75b8ac90-a744-4a85-9163-9c4488e35c0b",
+        "title": "Serious Cryptography",
+        "author": "Aumasson",
         "subject": "technology",
-        "total_copies": 0,
-        "available_copies": 0,
+        "total_copies": 4,
+        "available_copies": 3,
         "available": true
     },
     {
-        "book_id": "1st Book",
-        "title": "1st Book",
-        "author": "Me",
-        "subject": "technology",
+        "book_id": "d1e59be5-481b-4446-a7a6-a3c963d0a111",
+        "title": "Frankenstein",
+        "author": "Mary Shelley",
+        "subject": "english",
         "total_copies": 3,
-        "available_copies": 3,
-        "available": true
+        "available_copies": 0,
+        "available": false
     }
 ]
