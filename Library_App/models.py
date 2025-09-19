@@ -7,15 +7,22 @@ import json
 
 
 class Book:
-    def __init__(self, id, title, author, subject, total_copies):
+    def __init__(self, id, title, author, subject, total_copies, available_copies):
         self.book_id = id
         self.title = title
         self.author = author
         self.subject = subject
         
         self.total_copies: int = total_copies
-        self.available_copies: int = total_copies
+        self.available_copies: int = available_copies
+        self.available: bool = self.check_availability()
         
+    def check_availability(self):
+        if (self.available_copies > 0):
+            return True
+        else:
+            return False
+    
     def update_return(self):
         if (self.available_copies < self.total_copies):
             self.available_copies += 1
@@ -194,7 +201,8 @@ class Library:
                 "author": book.author,
                 "subject": book.subject,
                 "total_copies": book.total_copies,
-                "available_copies": book.available_copies
+                "available_copies": book.available_copies,
+                "available": book.available
             })
         with open(self.books_file, "w") as f:
             json.dump(data,f, indent=4)

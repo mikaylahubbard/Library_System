@@ -5,7 +5,14 @@ from django.contrib import messages
 
 library = Library()
 # Create your views here.
+
+
 def home(request):
+    # Handle logout action
+    if request.method == "POST" and "logout" in request.POST:
+        request.session.flush()  # clear session safely
+        return redirect("/")
+
     user_id = request.session.get("user_id")
     user = None
     if user_id:
@@ -13,7 +20,7 @@ def home(request):
             if u.user_id == user_id:
                 user = u
                 break
-    return render(request, "home.html", {"user": user})
+    return render(request, "home.html", {"user": user, "books": library.books})
 
 def login_page(request):
     if request.method == "POST":
@@ -22,7 +29,6 @@ def login_page(request):
         print("POST user_id:", repr(user_id))
         print("POST password:", repr(password))
         user = library.authenticate(user_id, password)
-        print(user)
         if user:
             request.session["user_id"] = user.user_id
             return redirect('/')
@@ -31,13 +37,9 @@ def login_page(request):
             return redirect('/login/')
     return render(request, "login.html")
 
-def logout_page(request):
-    if request.method == "POST":
-        del request.session["user_id"]
-        return redirect("login")
-    return render(request, 'logout.html')
 
 def register_page(request):
+    request.session.flush()  # clear session safely
     if request.method == "POST":
         user_id = request.POST["user_id"]
         f_name = request.POST["f_name"]

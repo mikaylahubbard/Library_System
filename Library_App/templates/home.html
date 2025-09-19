@@ -65,10 +65,24 @@ of currently borrowed books {% endcomment %}
           </ul>
 
           <div class="text-end">
+            {% if user %}
+            <form method="POST" action="" class="d-inline">
+              {% csrf_token %}
+              <button
+                type="submit"
+                name="logout"
+                value="1"
+                class="btn btn-warning"
+              >
+                Log out
+              </button>
+            </form>
+            {% else%}
             <a href="/register/" class="btn btn-outline-light me-2">
               Register
             </a>
             <a href="/login/" class="btn btn-warning">Login</a>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -92,15 +106,81 @@ of currently borrowed books {% endcomment %}
             Scroll down to view your books, and login!
           </p>
           <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            {% if user %}
+            <form method="POST" action="">
+              {% csrf_token %}
+              <button
+                type="submit"
+                name="logout"
+                value="1"
+                class="btn btn-warning btn-lg px-4 me-md-2"
+              >
+                Log out
+              </button>
+            </form>
+
+            {% else%}
             <a href="/login/" class="btn btn-warning btn-lg px-4 me-md-2">
               Login
             </a>
+
             <a href="/register/" class="btn btn-outline-light btn-lg px-4">
               Register
             </a>
+            {% endif%}
           </div>
         </div>
       </div>
     </div>
+
+    {% if user %}
+
+    <!--All books - donote how many are available - option to borrow if they are available-->
+    <div class="container px-4 text-center">
+      <h2 class="p-3 border-bottom border-dark border-5 rounded">All Books</h2>
+
+      <div class = "row row-cols-1 row-cols-md-3 mb-3 text-center">
+        {% if books%}
+        {% for book in books %}
+          <div class="col mt-3"> 
+            <div class="card mb-4 rounded-3 shadow-sm bg-dark text-light"> 
+              <div class="card-header py-3 "> 
+                {% if book.available %}
+                <h4 class="my-0 fw-normal">Available</h4> 
+                {% else %}
+                <h4 class="my-0 fw-normal">Unavailable</h4> 
+                {% endif %}
+              </div> 
+              <div class="card-body"> 
+                <h1 class="card-title pricing-card-title">
+                  {{book.title}}
+                </h1> 
+                <ul class="list-unstyled mt-3 mb-4"> 
+                  
+                  <li>Author: {{book.author}}</li> 
+                  <li>Subject: {{book.subject}}</li> 
+                  <li>{{book.total_copies}} Total Copies</li> 
+                  <li>{{book.available_copies}} Available Copies</li> 
+                </ul> 
+                <button type="button" class="w-100 btn btn-lg btn-outline-warning">
+                  Borrow
+                </button> 
+              </div> 
+            </div> 
+          </div>
+          {% endfor %}
+          {% else %}
+          <p> no books in library </p>
+          {% endif %}
+
+    </div>
+    <!--User's currently checked out books - button to return -->
+    <div class="container px-4 pt-5 text-center" id="featured-3">
+      <h2 class="p-3 border-bottom border-dark border-5 rounded">
+        Checked Out
+      </h2>
+    </div>
+    <!-- Add and if role is teacher vs. student and their functionalities-->
+    {%endif%} {% comment %} put footer here {% endcomment %}
   </body>
 </html>
