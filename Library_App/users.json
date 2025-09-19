@@ -1,0 +1,20 @@
+[
+    {
+        "user_id": "mikayla@thehubbards.org",
+        "f_name": "Mikayla",
+        "l_name": "Hubbard",
+        "password": "test4",
+        "subject": "Technology",
+        "role": "student",
+        "borrowed_books": []
+    },
+    {
+        "user_id": "mikaylalhubbard@gmail.com",
+        "f_name": "Mikayla2",
+        "l_name": "Hubbard",
+        "password": "teacher",
+        "subject": "Technology",
+        "role": "teacher",
+        "borrowed_books": []
+    }
+]
