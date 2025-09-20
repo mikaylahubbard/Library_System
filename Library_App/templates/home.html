@@ -139,46 +139,106 @@ of currently borrowed books {% endcomment %}
     <div class="container px-4 text-center">
       <h2 class="p-3 border-bottom border-dark border-5 rounded">All Books</h2>
 
-      <div class = "row row-cols-1 row-cols-md-3 mb-3 text-center">
-        {% if books%}
-        {% for book in books %}
-          <div class="col mt-3"> 
-            <div class="card mb-4 rounded-3 shadow-sm bg-dark text-light"> 
-              <div class="card-header py-3 "> 
-                {% if book.available %}
-                <h4 class="my-0 fw-normal">Available</h4> 
-                {% else %}
-                <h4 class="my-0 fw-normal">Unavailable</h4> 
-                {% endif %}
-              </div> 
-              <div class="card-body"> 
-                <h1 class="card-title pricing-card-title">
-                  {{book.title}}
-                </h1> 
-                <ul class="list-unstyled mt-3 mb-4"> 
-                  
-                  <li>Author: {{book.author}}</li> 
-                  <li>Subject: {{book.subject}}</li> 
-                  <li>{{book.total_copies}} Total Copies</li> 
-                  <li>{{book.available_copies}} Available Copies</li> 
-                </ul> 
-                <button type="button" class="w-100 btn btn-lg btn-outline-warning">
+      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        {% if books%} {% for book in books %}
+        <div class="col mt-3">
+          <div class="card mb-4 rounded-3 shadow-sm bg-dark text-light">
+            <div class="card-header py-3">
+              {% if book.available %}
+              <h4 class="my-0 fw-normal">Available</h4>
+              {% else %}
+              <h4 class="my-0 fw-normal">Unavailable</h4>
+              {% endif %}
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">{{book.title}}</h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>Author: {{book.author}}</li>
+                <li>Subject: {{book.subject}}</li>
+                <li>{{book.total_copies}} Total Copies</li>
+                <li>{{book.available_copies}} Available Copies</li>
+              </ul>
+              {% if book.available %}
+              <form
+                method="POST"
+                action="{% url 'home' %}"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <input
+                  type="hidden"
+                  name="book_id"
+                  value="{{ book.book_id }}"
+                />
+                <button
+                  type="submit"
+                  name="borrow"
+                  value="1"
+                  class="w-100 btn btn-lg btn-outline-warning"
+                >
                   Borrow
-                </button> 
-              </div> 
-            </div> 
+                </button>
+              </form>
+              {% else %}
+              <button
+                type="button"
+                class="w-100 btn btn-lg btn-outline-secondary disabled"
+              >
+                Borrow
+              </button>
+              {% endif %}
+            </div>
           </div>
-          {% endfor %}
-          {% else %}
-          <p> no books in library </p>
-          {% endif %}
-
+        </div>
+        {% endfor %} {% else %}
+        <p>no books in library</p>
+        {% endif %}
+      </div>
     </div>
     <!--User's currently checked out books - button to return -->
-    <div class="container px-4 pt-5 text-center" id="featured-3">
+    <div class="container px-4 text-center">
       <h2 class="p-3 border-bottom border-dark border-5 rounded">
         Checked Out
       </h2>
+      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        {% if borrowed_books %} {% for book in borrowed_books%}
+        <div class="col mt-3">
+          <div class="card mb-4 rounded-3 shadow-sm bg-dark text-light">
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">{{book.title}}</h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>Author: {{book.author}}</li>
+                <li>Subject: {{book.subject}}</li>
+              </ul>
+              <form
+                method="POST"
+                action="{% url 'home' %}"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <input
+                  type="hidden"
+                  name="book_id"
+                  value="{{ book.book_id }}"
+                />
+                <button
+                  type="submit"
+                  name="return"
+                  value="1"
+                  class="w-100 btn btn-lg btn-outline-warning"
+                >
+                  Return
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endfor %} {% else %}
+      </div>
+      <div class="text-center">
+        <p>No books checked out</p>
+      </div>
+      {% endif %}
     </div>
     <!-- Add and if role is teacher vs. student and their functionalities-->
     {%endif%} {% comment %} put footer here {% endcomment %}
